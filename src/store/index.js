@@ -1,14 +1,19 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+
+const storedToken = localStorage.getItem('token');
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    state: {
+        token: storedToken ?? '',
+    },
+    getters: {
+        getToken: (state) => state.token,
+    },
+    mutations: {
+        setToken(state, payload) {
+            state.token = payload;
+        },
+    },
+    actions: {},
+    modules: {},
+});
