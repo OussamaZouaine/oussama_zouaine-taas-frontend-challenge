@@ -2,7 +2,7 @@
     <div class="min-h-screen grid place-content-center">
         <button
             @click="githubAuth"
-            class="bg-sky-600 py-4 px-8 rounded text-white text-xl focus:ring-2 focus:ring-sky-600 focus:ring-offset-2"
+            class="bg-sky-600 py-4 px-8 rounded text-white text-lg md:text-xl focus:ring-2 focus:ring-sky-600 focus:ring-offset-2"
         >
             <i class="fa-brands fa-github mr-2"></i> Authorize my Github account
         </button>
@@ -29,10 +29,13 @@ export default {
 
                     // The signed-in user info.
                     const user = result.user;
-                    // ...
+
                     console.log(token);
+                    console.log(user);
                     localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
                     this.$store.commit('setToken', token);
+                    this.$store.commit('setUser', user);
                     this.$router.push('/user');
                 })
                 .catch((error) => {
