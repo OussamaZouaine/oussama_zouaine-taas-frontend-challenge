@@ -30,8 +30,6 @@ export default {
                     // The signed-in user info.
                     const user = result.user;
 
-                    console.log(token);
-                    console.log(user);
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
                     this.$store.commit('setToken', token);

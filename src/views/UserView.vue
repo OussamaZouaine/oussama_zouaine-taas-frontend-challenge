@@ -13,9 +13,27 @@
             ></i>
         </div>
 
-        <ul>
-            <li v-for="repo in repos" :key="repo.id">{{ repo.name }}</li>
-        </ul>
+        <form
+            @submit.prevent=""
+            class="flex items-center gap-x-2 w-fit py-3 px-6 border border-blue-100 rounded shadow-md focus-within:border-blue-500 mb-6"
+        >
+            <input
+                type="text"
+                name="name"
+                v-model="repoName"
+                placeholder="Search a repo by name..."
+                class="w-60 focus:outline-none placeholder:text-blue-300"
+            />
+            <i class="fa-solid fa-magnifying-glass text-blue-500"></i>
+        </form>
+
+        <div>
+            <ul>
+                <li v-for="repo in filteredRepos" :key="repo.id" class="">
+                    {{ repo.name }}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -27,41 +45,28 @@ export default {
     name: 'AboutView',
     data() {
         return {
-            repos: [],
+            repos: this.$store.state.repos,
+            repoName: '',
         };
     },
     components: {
         Header,
     },
-    computed: {
-        ...mapGetters({ token: 'getToken', user: 'getUser' }),
-    },
     methods: {
         hideInfo(e) {
             e.target.parentElement.classList.add('hidden');
         },
-        async fetchUserData(token) {
-            const res = await fetch(
-                'https://api.github.com/user/repos?per_page=100&sort=updated',
-                {
-                    methods: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        accept: 'application/vnd.github.v3+json',
-                    },
-                }
-            );
-
-            const data = await res.json();
-
-            console.log(data);
-
-            this.repos = data;
-        },
     },
     created() {
-        // console.log(this.$store.state.token);
-        this.fetchUserData(this.$store.state.token);
+        this.$store.dispatch('fetchReposData', this.$store.state.token);
+    },
+    computed: {
+        ...mapGetters({ token: 'getToken' }),
+        filteredRepos() {
+            return this.repos.filter((repo) =>
+                repo.name.toLowerCase().includes(this.repoName.toLowerCase())
+            );
+        },
     },
 };
 </script>

@@ -42,6 +42,7 @@ export default {
             signOut(getAuth())
                 .then(() => {
                     // Sign-out successful.
+                    localStorage.clear();
                     this.$router.push('/');
                 })
                 .catch((error) => {
