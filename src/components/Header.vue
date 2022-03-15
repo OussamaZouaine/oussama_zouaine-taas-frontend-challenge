@@ -3,6 +3,7 @@
         <h1 class="font-medium text-lg uppercase">{{ user.displayName }}</h1>
         <div class="relative">
             <img
+                v-click-away="onClickAway"
                 @click="toggleDropdown"
                 :src="user.photoURL"
                 alt="user photo"
@@ -37,6 +38,9 @@ export default {
     methods: {
         toggleDropdown() {
             this.dropdown = !this.dropdown;
+        },
+        onClickAway() {
+            this.dropdown = false;
         },
         sign_out() {
             signOut(getAuth())

@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import VueClickAway from 'vue3-click-away';
 import './assets/index.css';
 
 // Import the functions you need from the SDKs you need
@@ -27,6 +28,10 @@ let app;
 
 onAuthStateChanged(getAuth(), (user) => {
     if (!app) {
-        app = createApp(App).use(store).use(router).mount('#app');
+        app = createApp(App)
+            .use(store)
+            .use(router)
+            .use(VueClickAway)
+            .mount('#app');
     }
 });

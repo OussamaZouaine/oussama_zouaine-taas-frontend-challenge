@@ -27,19 +27,29 @@
             <i class="fa-solid fa-magnifying-glass text-blue-500"></i>
         </form>
 
-        <div>
-            <ul>
-                <li v-for="repo in filteredRepos" :key="repo.id" class="">
+        <div class="md:flex md:gap-8 py-4">
+            <ul class="h-[100vh] w-fit overflow-auto">
+                <li
+                    @click="fetchRepo(repo.id, repo.name, repo.owner.login)"
+                    v-for="repo in filteredRepos"
+                    :key="repo.id"
+                    class="p-2 cursor-pointer hover:bg-blue-200"
+                >
                     {{ repo.name }}
                 </li>
             </ul>
+
+            <Repo v-if="this.$store.state.repo" class="grow" />
+            <section v-else>
+                <h1>Select a Repository</h1>
+            </section>
         </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Header from '@/components/Header.vue';
+import Repo from '@/components/Repo';
 
 export default {
     name: 'AboutView',
@@ -51,17 +61,31 @@ export default {
     },
     components: {
         Header,
+        Repo,
     },
     methods: {
         hideInfo(e) {
             e.target.parentElement.classList.add('hidden');
         },
+        fetchRepo(id, name, owner) {
+            this.$store.dispatch('fetchRepoData', {
+                token: this.$store.state.token,
+                id,
+                name,
+                owner,
+            });
+            this.$store.dispatch('fetchCommits', {
+                token: this.$store.state.token,
+                id,
+                name,
+                owner,
+            });
+        },
     },
-    created() {
+    mounted() {
         this.$store.dispatch('fetchReposData', this.$store.state.token);
     },
     computed: {
-        ...mapGetters({ token: 'getToken' }),
         filteredRepos() {
             return this.repos.filter((repo) =>
                 repo.name.toLowerCase().includes(this.repoName.toLowerCase())
@@ -70,3 +94,11 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+ul {
+    scrollbar-color: #3b82f6 #dbeafe;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+</style>

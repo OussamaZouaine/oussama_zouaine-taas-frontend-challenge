@@ -49,5 +49,10 @@ export default {
                 });
         },
     },
+    created() {
+        if (getAuth().currentUser) {
+            this.$router.push('/user');
+        }
+    },
 };
 </script>
