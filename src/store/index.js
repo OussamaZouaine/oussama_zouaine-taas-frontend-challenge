@@ -9,6 +9,7 @@ const storedBranches = JSON.parse(localStorage.getItem('branches'));
 
 export default createStore({
     state: {
+        isLoading: true,
         token: storedToken ?? '',
         user: storedUser ?? {},
         repos: storedRepos ?? [],
@@ -47,6 +48,7 @@ export default createStore({
     actions: {
         // Fetch All repositories
         async fetchReposData(state, payload) {
+            state.state.isLoading = true;
             const res = await fetch(
                 'https://api.github.com/user/repos?per_page=100&sort=updated',
                 {
@@ -63,6 +65,7 @@ export default createStore({
             state.commit('setRepos', data);
 
             localStorage.setItem('repos', JSON.stringify(data));
+            state.state.isLoading = false;
         },
         // Fetch a specific repository
         async fetchRepoData(state, payload) {
@@ -83,7 +86,7 @@ export default createStore({
 
             localStorage.setItem('repo', JSON.stringify(data));
 
-            console.log(data);
+            // console.log(data);
         },
         // Fetch commits of a specific repository
         async fetchCommits(state, payload) {
@@ -106,7 +109,7 @@ export default createStore({
 
             localStorage.setItem('commits', JSON.stringify(commit));
 
-            console.log(state.state.commits);
+            // console.log(state.state.commits);
         },
         // Fetch Branches of a specific repository
         async fetchBranches(state, payload) {
@@ -129,7 +132,7 @@ export default createStore({
 
             localStorage.setItem('branches', JSON.stringify(branch));
 
-            console.log(state.state.branches);
+            // console.log(state.state.branches);
         },
     },
     modules: {},

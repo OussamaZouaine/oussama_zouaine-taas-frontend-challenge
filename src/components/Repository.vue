@@ -25,10 +25,9 @@
         <!-- End Repo Info -->
 
         <select
-            class="form-select mb-4 px-4 py-2 w-fit rounded shadow-sm bg-white border border-blue-500"
+            class="mb-4 px-4 py-2 w-fit rounded shadow-sm bg-white border border-blue-100 focus:border-blue-500"
         >
             <option
-                class=""
                 v-for="branch in branches"
                 :key="branch.name"
                 :value="branch.name"

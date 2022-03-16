@@ -18,7 +18,7 @@
         <!-- Search Form -->
         <form
             @submit.prevent=""
-            class="flex items-center gap-x-2 w-fit py-3 px-6 border border-blue-100 rounded shadow-md focus-within:border-blue-500 mb-6"
+            class="flex items-center gap-x-2 w-fit py-3 px-6 border border-blue-100 rounded shadow-sm focus-within:border-blue-500 mb-6"
         >
             <input
                 type="text"
@@ -32,9 +32,12 @@
         <!-- End Search Form -->
 
         <!-- Repositories -->
-        <div class="md:flex md:gap-8 py-4">
+        <div class="md:flex md:gap-x-8 py-4 space-y-8 md:space-y-1">
             <!-- List of repositories -->
-            <ul class="min-w-fit overflow-auto">
+            <ul
+                v-if="!this.$store.state.isLoading"
+                class="h-[70vh] md:h-auto min-w-fit overflow-auto mb-4"
+            >
                 <li
                     @click="fetchRepo(repo.id, repo.name, repo.owner.login)"
                     v-for="repo in filteredRepos"
@@ -104,6 +107,8 @@ export default {
     created() {
         this.$store.dispatch('fetchReposData', this.$store.state.token);
         // console.log(this.$store.state.token);
+        // assign state values from the local storage
+        // this.$store.state.repos = JSON.parse(localStorage.getItem('repos'));
     },
 };
 </script>
