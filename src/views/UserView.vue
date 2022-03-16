@@ -47,8 +47,11 @@
                     {{ repo.name }}
                 </li>
             </ul>
+            <!-- End list of repositories -->
 
+            <!-- Repository component to show selected repo -->
             <Repository />
+            <!-- End Repository component to show selected repo -->
         </div>
         <!-- End Repositories -->
     </div>
@@ -63,7 +66,6 @@ export default {
     name: 'AboutView',
     data() {
         return {
-            repos: this.$store.state.repos,
             repoName: '',
         };
     },
@@ -99,16 +101,13 @@ export default {
     computed: {
         ...mapGetters({ repo: 'getRepo' }),
         filteredRepos() {
-            return this.repos.filter((repo) =>
+            return this.$store.state.repos.filter((repo) =>
                 repo.name.toLowerCase().includes(this.repoName.toLowerCase())
             );
         },
     },
     created() {
         this.$store.dispatch('fetchReposData', this.$store.state.token);
-        // console.log(this.$store.state.token);
-        // assign state values from the local storage
-        // this.$store.state.repos = JSON.parse(localStorage.getItem('repos'));
     },
 };
 </script>
