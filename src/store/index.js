@@ -5,6 +5,7 @@ const storedUser = JSON.parse(localStorage.getItem('user'));
 const storedRepos = JSON.parse(localStorage.getItem('repos'));
 const storedRepo = JSON.parse(localStorage.getItem('repo'));
 const storedCommits = JSON.parse(localStorage.getItem('commits'));
+const storedBranches = JSON.parse(localStorage.getItem('branches'));
 
 export default createStore({
     state: {
@@ -13,6 +14,7 @@ export default createStore({
         repos: storedRepos ?? [],
         repo: storedRepo ?? {},
         commits: storedCommits ?? [],
+        branches: storedBranches ?? [],
     },
     getters: {
         getToken: (state) => state.token,
@@ -20,6 +22,7 @@ export default createStore({
         getRepos: (state) => state.repos,
         getRepo: (state) => state.repo,
         getCommits: (state) => state.commits,
+        getBranches: (state) => state.branches,
     },
     mutations: {
         setToken(state, payload) {
@@ -36,6 +39,9 @@ export default createStore({
         },
         setCommits(state, payload) {
             state.commits = payload;
+        },
+        setBranches(state, payload) {
+            state.branches = payload;
         },
     },
     actions: {
@@ -101,6 +107,29 @@ export default createStore({
             localStorage.setItem('commits', JSON.stringify(commit));
 
             console.log(state.state.commits);
+        },
+        // Fetch Branches of a specific repository
+        async fetchBranches(state, payload) {
+            const res = await fetch(
+                `https://api.github.com/repos/${payload.owner}/${payload.name}/branches`,
+                {
+                    methods: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${payload.token}`,
+                        accept: 'application/vnd.github.v3+json',
+                    },
+                }
+            );
+
+            const data = res.json();
+
+            const branch = await data;
+
+            state.commit('setBranches', branch);
+
+            localStorage.setItem('branches', JSON.stringify(branch));
+
+            console.log(state.state.branches);
         },
     },
     modules: {},

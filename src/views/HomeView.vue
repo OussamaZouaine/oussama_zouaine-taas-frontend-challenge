@@ -30,10 +30,10 @@ export default {
                     // The signed-in user info.
                     const user = result.user;
 
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('user', JSON.stringify(user));
                     this.$store.commit('setToken', token);
                     this.$store.commit('setUser', user);
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
                     this.$router.push('/user');
                 })
                 .catch((error) => {
