@@ -45,7 +45,6 @@ export default {
                     // The AuthCredential type that was used.
                     const credential =
                         GithubAuthProvider.credentialFromError(error);
-                    // ...
                 });
         },
     },

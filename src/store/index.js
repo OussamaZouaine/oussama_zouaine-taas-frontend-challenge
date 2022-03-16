@@ -4,6 +4,7 @@ const storedToken = localStorage.getItem('token');
 const storedUser = JSON.parse(localStorage.getItem('user'));
 const storedRepos = JSON.parse(localStorage.getItem('repos'));
 const storedRepo = JSON.parse(localStorage.getItem('repo'));
+const storedCommits = JSON.parse(localStorage.getItem('commits'));
 
 export default createStore({
     state: {
@@ -11,7 +12,7 @@ export default createStore({
         user: storedUser ?? {},
         repos: storedRepos ?? [],
         repo: storedRepo ?? {},
-        commits: [],
+        commits: storedCommits ?? [],
     },
     getters: {
         getToken: (state) => state.token,
@@ -38,6 +39,7 @@ export default createStore({
         },
     },
     actions: {
+        // Fetch All repositories
         async fetchReposData(state, payload) {
             const res = await fetch(
                 'https://api.github.com/user/repos?per_page=100&sort=updated',
@@ -52,10 +54,11 @@ export default createStore({
 
             const data = await res.json();
 
-            localStorage.setItem('repos', JSON.stringify(data));
-
             state.commit('setRepos', data);
+
+            localStorage.setItem('repos', JSON.stringify(data));
         },
+        // Fetch a specific repository
         async fetchRepoData(state, payload) {
             const res = await fetch(
                 `https://api.github.com/repos/${payload.owner}/${payload.name}`,
@@ -70,15 +73,16 @@ export default createStore({
 
             const data = await res.json();
 
-            localStorage.setItem('repo', JSON.stringify(data));
-
             state.commit('setRepo', data);
+
+            localStorage.setItem('repo', JSON.stringify(data));
 
             console.log(data);
         },
+        // Fetch commits of a specific repository
         async fetchCommits(state, payload) {
             const res = await fetch(
-                `https://api.github.com/repos/${payload.owner}/${payload.name}/commits`,
+                `https://api.github.com/repos/${payload.owner}/${payload.name}/commits?per_page=100`,
                 {
                     methods: 'GET',
                     headers: {
@@ -93,6 +97,9 @@ export default createStore({
             const commit = await data;
 
             state.commit('setCommits', commit);
+
+            localStorage.setItem('commits', JSON.stringify(commit));
+
             console.log(state.state.commits);
         },
     },

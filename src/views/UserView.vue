@@ -28,28 +28,26 @@
         </form>
 
         <div class="md:flex md:gap-8 py-4">
-            <ul class="h-[100vh] w-fit overflow-auto">
+            <ul class="h-[100vh] min-w-fit overflow-auto">
                 <li
                     @click="fetchRepo(repo.id, repo.name, repo.owner.login)"
                     v-for="repo in filteredRepos"
                     :key="repo.id"
-                    class="p-2 cursor-pointer hover:bg-blue-200"
+                    class="p-2 cursor-pointer hover:bg-blue-100 hover:font-semibold"
                 >
                     {{ repo.name }}
                 </li>
             </ul>
 
-            <Repo v-if="this.$store.state.repo" class="grow" />
-            <section v-else>
-                <h1>Select a Repository</h1>
-            </section>
+            <Repository />
         </div>
     </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import Repo from '@/components/Repo';
+import Repository from '@/components/Repository.vue';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'AboutView',
@@ -61,7 +59,7 @@ export default {
     },
     components: {
         Header,
-        Repo,
+        Repository,
     },
     methods: {
         hideInfo(e) {
@@ -82,15 +80,17 @@ export default {
             });
         },
     },
-    mounted() {
-        this.$store.dispatch('fetchReposData', this.$store.state.token);
-    },
     computed: {
+        ...mapGetters({ repo: 'getRepo' }),
         filteredRepos() {
             return this.repos.filter((repo) =>
                 repo.name.toLowerCase().includes(this.repoName.toLowerCase())
             );
         },
+    },
+    created() {
+        this.$store.dispatch('fetchReposData', this.$store.state.token);
+        // console.log(this.$store.state.token);
     },
 };
 </script>
