@@ -35,7 +35,8 @@ npm run build
 
 ## Screenshots
 
-| Light Mode | Dark Mode |
+| Light Mode                                                       | Dark Mode                                                      |
+| ---------------------------------------------------------------- | -------------------------------------------------------------- |
 | ![home-light-mode](./src/assets/screenshots/home-light-mode.png) | ![home-dark-mode](./src/assets/screenshots/home-dark-mode.png) |
 | ![user-light-mode](./src/assets/screenshots/user-light-mode.png) | ![user-dark-mode](./src/assets/screenshots/user-dark-mode.png) |
 
