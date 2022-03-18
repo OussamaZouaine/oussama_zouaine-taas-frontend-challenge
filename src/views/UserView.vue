@@ -1,6 +1,8 @@
 <template>
     <div class="container bg-white text-black dark:bg-gray-800 dark:text-white">
+        <!-- Header -->
         <Header />
+        <!-- End Header -->
 
         <!-- Info -->
         <div
@@ -24,7 +26,7 @@
                 type="text"
                 name="name"
                 v-model="repoName"
-                placeholder="Search a repo by name..."
+                placeholder="Search a repo by name"
                 class="w-64 bg-transparent focus:outline-none placeholder:text-blue-300"
             />
             <i class="fa-solid fa-magnifying-glass text-blue-500"></i>

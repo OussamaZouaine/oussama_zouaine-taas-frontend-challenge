@@ -1,7 +1,10 @@
 <template>
     <div class="container bg-white text-black dark:bg-gray-800 dark:text-white">
+        <!-- Header -->
         <Header />
+        <!-- End Header -->
 
+        <!-- Auth Button -->
         <div class="h-[90vh] grid place-content-center">
             <button
                 @click="githubAuth"
@@ -11,6 +14,7 @@
                 account
             </button>
         </div>
+        <!-- Auth Button -->
     </div>
 </template>
 
