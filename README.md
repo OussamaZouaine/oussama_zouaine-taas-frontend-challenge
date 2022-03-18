@@ -33,6 +33,10 @@ npm run serve
 npm run build
 ```
 
+## Preview
+
+[Live Preview](https://tass-frontend.netlify.app)
+
 ## Screenshots
 
 | Light Mode                                                       | Dark Mode                                                      |
