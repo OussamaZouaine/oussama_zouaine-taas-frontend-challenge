@@ -1,22 +1,28 @@
 <template>
-    <div class="min-h-screen grid place-content-center">
-        <button
-            @click="githubAuth"
-            class="bg-sky-600 py-4 px-8 rounded text-white text-lg md:text-xl focus:ring-2 focus:ring-sky-600 focus:ring-offset-2"
-        >
-            <i class="fa-brands fa-github mr-2"></i> Authorize my Github account
-        </button>
+    <div class="container bg-white text-black dark:bg-gray-800 dark:text-white">
+        <Header />
+
+        <div class="h-[90vh] grid place-content-center">
+            <button
+                @click="githubAuth"
+                class="bg-sky-600 py-4 px-8 rounded text-white text-lg md:text-xl focus:ring-2 focus:ring-sky-600 dark:focus:ring-offset-transparent focus:ring-offset-2"
+            >
+                <i class="fa-brands fa-github mr-2"></i> Authorize my Github
+                account
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
 import { getAuth, signInWithPopup, GithubAuthProvider } from 'firebase/auth';
+import Header from '@/components/Header.vue';
 
 const provider = new GithubAuthProvider();
 
 export default {
     name: 'HomeView',
-    components: {},
+    components: { Header },
     methods: {
         githubAuth() {
             const auth = getAuth();

@@ -25,7 +25,7 @@
         <!-- End Repo Info -->
 
         <select
-            class="mb-4 px-4 py-2 w-fit rounded shadow-sm bg-white border border-blue-100 focus:border-blue-500"
+            class="mb-4 px-4 py-2 w-fit rounded shadow-sm bg-white dark:bg-gray-800 border border-blue-100 focus:border-blue-500"
         >
             <option
                 v-for="branch in branches"
@@ -42,7 +42,7 @@
         <div
             v-for="commit in commits"
             :key="commit.sha"
-            class="flex gap-x-3 py-2 px-4 border border-gray-100 rounded mb-2 hover:bg-blue-50"
+            class="flex gap-x-3 py-2 px-4 border border-gray-100 rounded mb-2 hover:bg-blue-50 hover:text-black"
         >
             <i class="fa-solid fa-code-commit mt-[0.35rem] text-blue-500"></i>
             <div>

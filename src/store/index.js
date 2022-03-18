@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 
+const storedTheme = JSON.parse(localStorage.getItem('theme'));
 const storedToken = localStorage.getItem('token');
 const storedUser = JSON.parse(localStorage.getItem('user'));
 const storedRepos = JSON.parse(localStorage.getItem('repos'));
@@ -9,6 +10,7 @@ const storedBranches = JSON.parse(localStorage.getItem('branches'));
 
 export default createStore({
     state: {
+        darkThem: storedTheme ?? false,
         isLoading: true,
         token: storedToken ?? '',
         user: storedUser ?? {},
@@ -24,6 +26,7 @@ export default createStore({
         getRepo: (state) => state.repo,
         getCommits: (state) => state.commits,
         getBranches: (state) => state.branches,
+        getDarkTheme: (state) => state.darkThem,
     },
     mutations: {
         setToken(state, payload) {
@@ -43,6 +46,10 @@ export default createStore({
         },
         setBranches(state, payload) {
             state.branches = payload;
+        },
+        setDarkTheme(state) {
+            state.darkThem = !state.darkThem;
+            localStorage.setItem('theme', state.darkThem);
         },
     },
     actions: {

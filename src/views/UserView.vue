@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container bg-white text-black dark:bg-gray-800 dark:text-white">
         <Header />
 
         <!-- Info -->
@@ -25,7 +25,7 @@
                 name="name"
                 v-model="repoName"
                 placeholder="Search a repo by name..."
-                class="w-64 focus:outline-none placeholder:text-blue-300"
+                class="w-64 bg-transparent focus:outline-none placeholder:text-blue-300"
             />
             <i class="fa-solid fa-magnifying-glass text-blue-500"></i>
         </form>
@@ -42,7 +42,7 @@
                     @click="fetchRepo(repo.id, repo.name, repo.owner.login)"
                     v-for="repo in filteredRepos"
                     :key="repo.id"
-                    class="p-2 cursor-pointer hover:bg-blue-100 hover:font-semibold"
+                    class="p-2 cursor-pointer hover:bg-blue-100 hover:font-semibold hover:text-black"
                 >
                     {{ repo.name }}
                 </li>
