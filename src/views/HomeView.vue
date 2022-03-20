@@ -42,8 +42,6 @@ export default {
 
                     this.$store.commit('setToken', token);
                     this.$store.commit('setUser', user);
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('user', JSON.stringify(user));
                     this.$router.push('/user');
                 })
                 .catch((error) => {
@@ -55,6 +53,8 @@ export default {
                     // The AuthCredential type that was used.
                     const credential =
                         GithubAuthProvider.credentialFromError(error);
+
+                    console.log(errorCode, errorMessage, email, credential);
                 });
         },
     },

@@ -1,5 +1,5 @@
 <template>
-    <div :class="darkTheme ? 'dark' : ''">
+    <div :class="darkTheme ? 'dark bg-gray-800' : ''">
         <router-view />
     </div>
 </template>

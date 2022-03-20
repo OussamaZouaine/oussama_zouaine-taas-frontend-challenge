@@ -11,7 +11,7 @@ const storedBranches = JSON.parse(localStorage.getItem('branches'));
 export default createStore({
     state: {
         darkThem: storedTheme ?? false,
-        isLoading: true,
+        // isLoading: true,
         token: storedToken ?? '',
         user: storedUser ?? {},
         repos: storedRepos ?? [],
@@ -31,21 +31,27 @@ export default createStore({
     mutations: {
         setToken(state, payload) {
             state.token = payload;
+            localStorage.setItem('token', payload);
         },
         setUser(state, payload) {
             state.user = payload;
+            localStorage.setItem('user', JSON.stringify(payload));
         },
         setRepos(state, payload) {
             state.repos = payload;
+            localStorage.setItem('repos', JSON.stringify(payload));
         },
         setRepo(state, payload) {
             state.repo = payload;
+            localStorage.setItem('repo', JSON.stringify(payload));
         },
         setCommits(state, payload) {
             state.commits = payload;
+            localStorage.setItem('commits', JSON.stringify(payload));
         },
         setBranches(state, payload) {
             state.branches = payload;
+            localStorage.setItem('branches', JSON.stringify(payload));
         },
         setDarkTheme(state) {
             state.darkThem = !state.darkThem;
@@ -55,91 +61,94 @@ export default createStore({
     actions: {
         // Fetch All repositories
         async fetchReposData(state, payload) {
-            state.state.isLoading = true;
-            const res = await fetch(
-                'https://api.github.com/user/repos?per_page=100&sort=updated',
-                {
-                    methods: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${payload}`,
-                        accept: 'application/vnd.github.v3+json',
-                    },
-                }
-            );
+            try {
+                // state.state.isLoading = true;
+                const res = await fetch(
+                    'https://api.github.com/user/repos?per_page=100&sort=updated',
+                    {
+                        methods: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${payload}`,
+                            accept: 'application/vnd.github.v3+json',
+                        },
+                    }
+                );
 
-            const data = await res.json();
+                const data = await res.json();
 
-            state.commit('setRepos', data);
+                state.commit('setRepos', data);
 
-            localStorage.setItem('repos', JSON.stringify(data));
-            state.state.isLoading = false;
+                // state.state.isLoading = false;
+            } catch (error) {
+                console.log(error);
+            }
         },
         // Fetch a specific repository
         async fetchRepoData(state, payload) {
-            const res = await fetch(
-                `https://api.github.com/repos/${payload.owner}/${payload.name}`,
-                {
-                    methods: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${payload.token}`,
-                        accept: 'application/vnd.github.v3+json',
-                    },
-                }
-            );
+            try {
+                const res = await fetch(
+                    `https://api.github.com/repos/${payload.owner}/${payload.name}`,
+                    {
+                        methods: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${payload.token}`,
+                            accept: 'application/vnd.github.v3+json',
+                        },
+                    }
+                );
 
-            const data = await res.json();
+                const data = await res.json();
 
-            state.commit('setRepo', data);
-
-            localStorage.setItem('repo', JSON.stringify(data));
-
-            // console.log(data);
+                state.commit('setRepo', data);
+            } catch (error) {
+                console.log(error);
+            }
         },
         // Fetch commits of a specific repository
         async fetchCommits(state, payload) {
-            const res = await fetch(
-                `https://api.github.com/repos/${payload.owner}/${payload.name}/commits?per_page=100`,
-                {
-                    methods: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${payload.token}`,
-                        accept: 'application/vnd.github.v3+json',
-                    },
-                }
-            );
+            try {
+                const res = await fetch(
+                    `https://api.github.com/repos/${payload.owner}/${payload.name}/commits?per_page=100`,
+                    {
+                        methods: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${payload.token}`,
+                            accept: 'application/vnd.github.v3+json',
+                        },
+                    }
+                );
 
-            const data = res.json();
+                const data = res.json();
 
-            const commit = await data;
+                const commit = await data;
 
-            state.commit('setCommits', commit);
-
-            localStorage.setItem('commits', JSON.stringify(commit));
-
-            // console.log(state.state.commits);
+                state.commit('setCommits', commit);
+            } catch (error) {
+                console.log(error);
+            }
         },
         // Fetch Branches of a specific repository
         async fetchBranches(state, payload) {
-            const res = await fetch(
-                `https://api.github.com/repos/${payload.owner}/${payload.name}/branches`,
-                {
-                    methods: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${payload.token}`,
-                        accept: 'application/vnd.github.v3+json',
-                    },
-                }
-            );
+            try {
+                const res = await fetch(
+                    `https://api.github.com/repos/${payload.owner}/${payload.name}/branches`,
+                    {
+                        methods: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${payload.token}`,
+                            accept: 'application/vnd.github.v3+json',
+                        },
+                    }
+                );
 
-            const data = res.json();
+                const data = res.json();
 
-            const branch = await data;
+                const branch = await data;
 
-            state.commit('setBranches', branch);
-
-            localStorage.setItem('branches', JSON.stringify(branch));
-
-            // console.log(state.state.branches);
+                state.commit('setBranches', branch);
+            } catch (error) {
+                console.log(error);
+            }
         },
     },
     modules: {},
